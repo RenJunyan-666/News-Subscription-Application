@@ -1,7 +1,7 @@
 import React from 'react'
 import SideMenu from '../../components/sandbox/SideMenu'
 import TopHeader from '../../components/sandbox/TopHeader'
-import NewsRouter from '../../components/NewsRouter'
+import NewsRouter from '../../components/sandbox/NewsRouter'
 
 //css
 import './NewsSandBox.css'

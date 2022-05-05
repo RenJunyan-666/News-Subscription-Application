@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import Home from '../views/sandbox/home/Home'
-import UserList from '../views/sandbox/user-manage/UserList'
-import RightList from '../views/sandbox/right-manage/RightList'
-import RoleList from '../views/sandbox/right-manage/RoleList'
-import Nopermission from '../views/sandbox/nopermission/Nopermission'
-import NewsAdd from '../views/sandbox/news-manage/NewsAdd'
-import NewsDraft from '../views/sandbox/news-manage/NewsDraft'
-import NewsCategory from '../views/sandbox/news-manage/NewsCategory'
-import Audit from '../views/sandbox/audit-manage/Audit'
-import AuditList from '../views/sandbox/audit-manage/AuditList'
-import Unpublished from '../views/sandbox/publish-manage/Unpublished'
-import Published from '../views/sandbox/publish-manage/Published'
-import Sunset from '../views/sandbox/publish-manage/Sunset'
+import Home from '../../views/sandbox/home/Home'
+import UserList from '../../views/sandbox/user-manage/UserList'
+import RightList from '../../views/sandbox/right-manage/RightList'
+import RoleList from '../../views/sandbox/right-manage/RoleList'
+import Nopermission from '../../views/sandbox/nopermission/Nopermission'
+import NewsAdd from '../../views/sandbox/news-manage/NewsAdd'
+import NewsDraft from '../../views/sandbox/news-manage/NewsDraft'
+import NewsCategory from '../../views/sandbox/news-manage/NewsCategory'
+import Audit from '../../views/sandbox/audit-manage/Audit'
+import AuditList from '../../views/sandbox/audit-manage/AuditList'
+import Unpublished from '../../views/sandbox/publish-manage/Unpublished'
+import Published from '../../views/sandbox/publish-manage/Published'
+import Sunset from '../../views/sandbox/publish-manage/Sunset'
+import NewsPreview from '../../views/sandbox/news-manage/NewsPreview'
+import NewsUpdate from '../../views/sandbox/news-manage/NewsUpdate'
 import {Switch, Route, Redirect} from 'react-router-dom'
 import axios from 'axios'
 
@@ -24,6 +26,8 @@ const LocalRouterMap = {
     "/news-manage/add":NewsAdd,
     "/news-manage/draft":NewsDraft,
     "/news-manage/category":NewsCategory,
+    "/news-manage/preview/:id":NewsPreview,
+    "/news-manage/update/:id":NewsUpdate,
     "/audit-manage/audit":Audit,
     "/audit-manage/list":AuditList,
     "/publish-manage/unpublished":Unpublished,
@@ -48,7 +52,7 @@ export default function NewsRouter() {
 
   //判断权限列表中权限开关是否打开
   const checkRoute = (item)=>{
-    return LocalRouterMap[item.key] && item.pagepermisson
+    return LocalRouterMap[item.key] && (item.pagepermisson || item.routepermisson)
   }
 
   //判断该用户是否有该权限

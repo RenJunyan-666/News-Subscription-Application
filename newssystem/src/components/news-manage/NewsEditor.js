@@ -1,6 +1,7 @@
-import React from 'react'
-import { Editor, EditorState, convertToRaw } from "draft-js";
+import React, { useEffect } from 'react'
+import { Editor, EditorState, convertToRaw, ContentState } from "draft-js";
 import draftToHtml from 'draftjs-to-html'
+import htmlToDraft from 'html-to-draftjs'
 import "draft-js/dist/Draft.css";
 
 export default function NewsEditor(props) {
@@ -12,6 +13,21 @@ export default function NewsEditor(props) {
   function focusEditor() {
     editor.current.focus();
   }
+
+  //接收父组件传来的新闻内容
+  useEffect(()=>{
+    //console.log(props.content)
+    //将内容重新放入富文本编译器
+    const html = props.content
+    if(html===undefined) return //如果是创建里进入择不进行该函数
+    const contentBlock = htmlToDraft(html)
+    if(contentBlock){
+      const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks)
+      const editorState = EditorState.createWithContent(contentState)
+      setEditorState(editorState)
+    }
+
+  },[props.content])
 
   return (
     <div
