@@ -1,0 +1,37 @@
+启动服务器：
+json-server --watch .\db.json --port 8000
+
+查询：
+axios.get("/posts/1").then(res=>{
+      console.log(res.data)
+    })
+
+增加：
+axios.post("/posts", {
+      title:"333",
+      author:"Wenye"
+    })
+
+修改：
+axios.put("/posts/1", {
+      title:"new test",
+      author:"Guohua"
+    })
+
+局部修改：
+axios.patch("/posts/1", {
+      title:"局部修改111"
+    })
+
+删除：
+axios.delete("/posts/1")
+
+向下关联：
+axios.get("/posts?_embed=comments").then(res=>{
+      console.log(res.data)
+    })
+
+向上关联：
+axios.get("/comments?_expand=post").then(res=>{
+      console.log(res.data)
+    })
