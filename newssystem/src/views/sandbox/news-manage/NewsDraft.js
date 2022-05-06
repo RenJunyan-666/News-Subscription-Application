@@ -9,7 +9,6 @@ export default function NewsDraft(props) {
   const [dataSource, setDataSource] = useState([])
   const {username} = JSON.parse(localStorage.getItem("token"))
 
-  //权限列表的框架
   const columns = [
     {
       title: 'ID',

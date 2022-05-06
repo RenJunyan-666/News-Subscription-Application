@@ -7,7 +7,9 @@ export default function NewsPreview(props) {
   const [newsInfo, setNewsInfo] = useState(null)
 
   const auditList = ["未审核","审核中","已通过","未通过"]
-  const publishList = ["未发布","代发布","已上线","未下线"]
+  const publishList = ["未发布","待发布","已上线","已下线"]
+
+  const colorList = ["black","orange","green","red"]
 
   useEffect(()=>{
     //console.log(props.match.params.id)
@@ -31,10 +33,10 @@ export default function NewsPreview(props) {
                         </Descriptions.Item>
                         <Descriptions.Item label="区域">{newsInfo.region}</Descriptions.Item>
                         <Descriptions.Item label="审核状态">
-                            <span style={{color:'red'}}>{auditList[newsInfo.auditState]}</span>
+                            <span style={{color:colorList[newsInfo.auditState]}}>{auditList[newsInfo.auditState]}</span>
                         </Descriptions.Item>
                         <Descriptions.Item label="发布状态">
-                            <span style={{color:'red'}}>{publishList[newsInfo.publishState]}</span>
+                            <span style={{color:colorList[newsInfo.publishState]}}>{publishList[newsInfo.publishState]}</span>
                         </Descriptions.Item>
                         <Descriptions.Item label="访问数量">{newsInfo.view}</Descriptions.Item>
                         <Descriptions.Item label="点赞数量">{newsInfo.star}</Descriptions.Item>
