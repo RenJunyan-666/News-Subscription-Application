@@ -16,6 +16,8 @@ import NewsPreview from '../../views/sandbox/news-manage/NewsPreview'
 import NewsUpdate from '../../views/sandbox/news-manage/NewsUpdate'
 import {Switch, Route, Redirect} from 'react-router-dom'
 import axios from 'axios'
+import { Spin } from 'antd'
+import { connect } from 'react-redux'
 
 //通过后端传来的数据动态渲染相应路径
 const LocalRouterMap = {
@@ -35,7 +37,7 @@ const LocalRouterMap = {
     "/publish-manage/sunset":Sunset
 }
 
-export default function NewsRouter() {
+function NewsRouter(props) {
   const [backRouteList, setBackRouteList] = useState([])
 
   //请求后端权限
@@ -61,20 +63,30 @@ export default function NewsRouter() {
   }
 
   return (
-    <Switch>
-        {
-            backRouteList.map(item=>{
-                if(checkRoute(item) && checkUserPermission(item)){ //权限开关打开且该用户拥有该权限才能显示路由
-                    return <Route path={item.key} key={item.key} component={LocalRouterMap[item.key]} exact/>
-                }
-                return null
-            })
-        }
+    <Spin size="large" spinning={props.isLoading}>
+      <Switch>
+          {
+              backRouteList.map(item=>{
+                  if(checkRoute(item) && checkUserPermission(item)){ //权限开关打开且该用户拥有该权限才能显示路由
+                      return <Route path={item.key} key={item.key} component={LocalRouterMap[item.key]} exact/>
+                  }
+                  return null
+              })
+          }
 
-        <Redirect from='/' to="/home" exact/>
-        {
-            backRouteList.length>0 && <Route path="*" component={Nopermission}/>
-        }
-    </Switch>
+          <Redirect from='/' to="/home" exact/>
+          {
+              backRouteList.length>0 && <Route path="*" component={Nopermission}/>
+          }
+      </Switch>
+    </Spin>
   )
 }
+
+const mapStateToProps = ({loadingReducer:{isLoading}})=>{
+  return {
+    isLoading
+  }
+}
+
+export default connect(mapStateToProps)(NewsRouter)

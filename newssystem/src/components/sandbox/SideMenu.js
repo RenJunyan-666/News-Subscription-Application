@@ -7,6 +7,7 @@ import {
 } from '@ant-design/icons'
 import SubMenu from 'antd/lib/menu/SubMenu'
 import axios from 'axios'
+import {connect} from 'react-redux'
 
 const { Sider } = Layout
 const iconList = { //图标映射表
@@ -53,7 +54,7 @@ function SideMenu(props) {
   const openKeys = ["/"+props.location.pathname.split("/")[1]] //获取当前选中的路径的父路径
 
   return (
-    <Sider trigger={null} collapsible collapsed={false}>
+    <Sider trigger={null} collapsible collapsed={props.isCollapsed}>
       <div style={{display:"flex", height:"100%", "flexDirection":"column"}}>
         <div className="logo">全球新闻发布管理系统</div>
         <div style={{flex:1,"overflow":"auto"}}>
@@ -71,4 +72,10 @@ function SideMenu(props) {
   )
 }
 
-export default withRouter(SideMenu) //跨级通信，将props从route组件传给sidemenu
+const mapStateToProps = ({collapsedReducer:{isCollapsed}})=>{
+  return {
+    isCollapsed
+  }
+}
+
+export default connect(mapStateToProps)(withRouter(SideMenu)) //跨级通信，将props从route组件传给sidemenu

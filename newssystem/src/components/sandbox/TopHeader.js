@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Layout, Dropdown, Menu, Avatar } from 'antd'
 import {
   MenuUnfoldOutlined,
@@ -6,14 +6,14 @@ import {
   UserOutlined
 } from '@ant-design/icons'
 import {withRouter} from 'react-router-dom'
+import {connect} from 'react-redux'
 
 const { Header } = Layout
 
 function TopHeader(props) {
   //侧边栏拉伸
-  const [collapsed, setCollapsed] = useState(false)
   const changeCollapsed = ()=>{
-    setCollapsed(!collapsed)
+    props.changeCollapsed()
   }
 
   //获取当前用户信息
@@ -37,7 +37,7 @@ function TopHeader(props) {
   return (
     <Header className="site-layout-background" style={{ padding: '0 16px' }}>
       {
-        collapsed?<MenuUnfoldOutlined onClick={changeCollapsed}/>:<MenuFoldOutlined onClick={changeCollapsed}/>
+        props.isCollapsed?<MenuUnfoldOutlined onClick={changeCollapsed}/>:<MenuFoldOutlined onClick={changeCollapsed}/>
       }
 
       <div style={{float:"right"}}>
@@ -49,4 +49,19 @@ function TopHeader(props) {
     </Header>
   )
 }
-export default withRouter(TopHeader)
+
+const mapStateToProps = ({collapsedReducer:{isCollapsed}})=>{
+  return {
+    isCollapsed
+  }
+}
+
+const mapDispatchToProps = {
+  changeCollapsed(){
+    return {
+      type:'change-collapsed'
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(TopHeader))
